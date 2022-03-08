@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="js/vue.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sample">
+        <form @submit.prevent="" v-show="show">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" v-model="email" />
+            <label>Phone</label>
+            <input type="number" class="form-control" v-model="phone" />
+            <label>First Name</label>
+            <input type="text" class="form-control" v-model="name" />
+            <label>Last Name</label>
+            <input type="text" class="form-control" v-model="surname" />
+          </div>
+          ...
+          <div class="form-group">
+            <label>Guests</label>
+            <input type="button" class="btn btn-primary" value="+" />
+          </div>
+          <div class="form-group">Guest 1 ....</div>
+          <hr />
+          <button
+            class="btn btn-success"
+            @click="SubmitHandler"
+            :disabled="checkInput"
+          >
+            Send Data
+          </button>
+        </form>
+        <div v-show="notShow">
+          <h2>All done!</h2>
+          <table class="table table-bordered" v-for="item in infoArr">
+            <tr>
+              <td>Email</td>
+              <td>{{item.email}}</td>
+            </tr>
+            <tr>
+              <td>Phone</td>
+              <td>{{item.phone}}</td>
+            </tr>
+            <tr>
+              <td>First Name</td>
+              <td>{{item.name}}</td>
+            </tr>
+            <tr>
+              <td>Last Name</td>
+              <td>{{item.surname}}</td>
+            </tr>
+            <tr>
+              <td>Guests</td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script>
+      Vue.createApp({
+        data: () => ({
+          email: "",
+          phone: "",
+          name: "",
+          surname: "",
+          infoArr: [],
+          isBtnDisabled: true,
+          show: true,
+          notShow: false,
+        }),
+        methods: {
+          SubmitHandler() {
+            if (this.email && this.phone && this.name && this.surname) {
+              (this.show = false), (this.notShow = true);
+              this.infoArr.push({
+                email: this.email,
+                phone: this.phone,
+                name: this.name,
+                surname: this.surname,
+              });
+            }
+          },
+        },
+        computed: {
+          checkInput() {
+            if (this.email && this.phone && this.name && this.surname) {
+              return (this.isBtnDisabled = false);
+            } else {
+              return (this.isBtnDisabled = true);
+            }
+          },
+        },
+      }).mount(".sample");
+    </script>
+  </body>
+</html>
